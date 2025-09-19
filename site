@@ -1,0 +1,32 @@
+<div id="accessOverlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(to bottom right,#e0f2fe,#c7d2fe);z-index:9999;display:flex;align-items:center;justify-content:center;">
+  <div style="background:white;padding:2rem;border-radius:1rem;box-shadow:0 0 20px rgba(0,0,0,0.2);max-width:400px;width:90%;text-align:center;font-family:sans-serif;">
+    <h2 style="font-size:1.5rem;font-weight:bold;margin-bottom:0.5rem;">🔐 Access Portal</h2>
+    <p style="color:#555;margin-bottom:1rem;">Enter your access code to unlock the site</p>
+    <input id="accessCode" type="text" placeholder="Enter code" style="width:100%;padding:0.75rem;border:1px solid #ccc;border-radius:0.5rem;margin-bottom:1rem;">
+    <button onclick="verifyCode()" style="width:100%;padding:0.75rem;background:#2563eb;color:white;border:none;border-radius:0.5rem;font-weight:bold;cursor:pointer;">Unlock</button>
+    <div id="errorMessage" style="color:red;margin-top:1rem;display:none;">❌ Invalid code. Try again.</div>
+    <p style="font-size:0.8rem;color:#888;margin-top:1rem;">Demo codes: admin, user, guest</p>
+  </div>
+</div>
+
+<script>
+  const validCodes = ["admin", "user", "guest", "test", "demo"];
+
+  function verifyCode() {
+    const input = document.getElementById("accessCode").value.trim().toLowerCase();
+    const error = document.getElementById("errorMessage");
+
+    if (validCodes.includes(input)) {
+      localStorage.setItem("siteUnlocked", "true");
+      document.getElementById("accessOverlay").style.display = "none";
+    } else {
+      error.style.display = "block";
+      setTimeout(() => error.style.display = "none", 3000);
+    }
+  }
+
+  // Auto-hide overlay if already unlocked
+  if (localStorage.getItem("siteUnlocked") === "true") {
+    document.getElementById("accessOverlay").style.display = "none";
+  }
+</script>
